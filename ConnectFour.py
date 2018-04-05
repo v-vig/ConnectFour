@@ -14,11 +14,11 @@ def score(state, player):
             if (state[y][x] == player):
                 single+=1
                 # check bottom
-                if (y - 1 < 0 or state[y-1][x] != player):
+                if (y-1 < 0 or state[y-1][x] != player):
                     counter = 1
+                    # see how far connection goes UPWARDS
                     while (True):
-                        # print("counter=" + str(counter))
-                        if (y+counter <=  board_height-1 and state[y+counter][x] == player):
+                        if (y+counter <= board_height-1 and state[y+counter][x] == player):
                             counter += 1
                         else:
                             if (counter == 2 ):
@@ -30,10 +30,10 @@ def score(state, player):
                             break
 
                     # check top right
-                    if (x + 1 < board_width - 1 and state[y-1][x+1] != player):
+                    if (y-1 < 0 or x+1 < board_width-1 and state[y-1][x+1] != player):
                         counter = 1
                         while (True):
-                            if (x - counter >= 0 and y+counter <= board_height and state[y+counter][x-counter] == player):
+                            if (x-counter >= 0 and y+counter <= board_height-1 and state[y+counter][x-counter] == player):
                                 counter += 1
                             else:
                                 if (counter == 2 ):
@@ -45,7 +45,7 @@ def score(state, player):
                                 break
 
                     # check bottom left
-                    if (x - 1 >= 0 and state[y-1][x-1]!= player):
+                    if (y-1 < 0 or x - 1 >= 0 and state[y-1][x-1]!= player):
                         counter = 1
                         while (True):
                             if (x+counter <= board_width-1 and y+counter <= board_height-1 and state[y+counter][x+counter] == player):
@@ -60,7 +60,7 @@ def score(state, player):
                                 break
 
                 # check left
-                if (x - 1 >= 0 and state[y][x-1] != player):
+                if (x - 1 < 0 or state[y][x-1] != player):
                     counter = 1
                     while (True):
                         if (x+counter <= board_width-1 and state[y][x+counter] == player):
