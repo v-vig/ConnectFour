@@ -3,14 +3,12 @@
 
 # assume player is in the form "r" or "y"
 # as the board is presented UPSIDE DOWN
-
 import sys
 
 def score(state, player):
     single, double, triple, quadruple, total = (0, 0, 0, 0, 0)
     for y in range(len(state)):
         for x in range(len(state[y])):
-            # print("x= "+ str(x) + " y=" + str(y))
             if (state[y][x] == player):
                 single+=1
                 # check bottom
@@ -73,18 +71,15 @@ def score(state, player):
                             if (counter == 4):
                                 quadruple +=1
                             break
-
-    print("single=" + str(single))
-    print("double=" + str(double))
-    print("triple=" + str(triple))
-    print("quadruple=" + str(quadruple))
-
     total = single + 10*double + 100*triple + 1000*quadruple
     return total
 
-# figure out how to define properly
+def evaluation(state):
+    return score(state, "r") - score(state, "y")
+
 board_height = 6
 board_width = 7
+
 initial_state = sys.argv[1] # separate initial state
 initial_state = initial_state.split(",") # separate initial state into rows
 print(initial_state)
@@ -99,5 +94,16 @@ if (sys.argv[3] == "A"):
     alpha_beta_ON = True
 max_depth = sys.argv[4]
 
-temp_score = score(state, "y")
-print(str(temp_score))
+# generate a game state tree of depth max_depth
+
+# perform minimax algorithm on the tree
+# return winning child
+class Node:
+    def _init_(self, score, state, player, children = None):
+        self.score = score(state, player)
+        self.children = children or []
+        self.parent = None
+
+    def generate_children(self, state):
+        for x in range(board_width):
+            def child(score, state, player):
